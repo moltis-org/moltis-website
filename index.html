@@ -73,6 +73,10 @@
     </style>
 </head>
 <body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-white min-h-screen flex items-center justify-center relative transition-colors duration-300 pt-2 pb-8 overflow-x-hidden w-full">
+    <!-- Toast notification -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 px-4 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-sm font-medium rounded-lg shadow-lg opacity-0 pointer-events-none transition-opacity duration-300 z-50">
+        Fly command copied
+    </div>
     <div class="absolute inset-0 overflow-hidden">
         <div class="absolute top-1/4 left-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-orange-300/20 dark:bg-orange-600/15 rounded-full blur-3xl animate-pulse-slow"></div>
         <div class="absolute bottom-1/4 right-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-red-300/20 dark:bg-red-600/15 rounded-full blur-3xl animate-pulse-slow animation-delay-2s"></div>
@@ -271,9 +275,9 @@
                         Deploy on Railway
                     </a>
                 </div>
-                <div class="mb-1 flex w-full items-center gap-3 px-3 py-2 rounded-md bg-orange-50 dark:bg-orange-950/40 border border-orange-200 dark:border-orange-800">
-                    <span class="text-[10px] font-semibold uppercase tracking-wide text-orange-700 dark:text-orange-300">Fly.io</span>
-                    <code class="min-w-0 flex-1 overflow-x-auto whitespace-nowrap font-mono text-[11px] sm:text-xs text-orange-800 dark:text-orange-200">fly launch --image ghcr.io/moltis-org/moltis:latest</code>
+                <div id="fly-command" class="mb-1 flex w-full items-center gap-3 px-3 py-2 rounded-md bg-orange-50 dark:bg-orange-950/40 border border-orange-200 dark:border-orange-800 cursor-pointer hover:bg-orange-100 dark:hover:bg-orange-950/60 transition-colors" title="Click to copy">
+                    <span class="shrink-0 text-[10px] font-semibold uppercase tracking-wide text-orange-700 dark:text-orange-300">Fly.io</span>
+                    <code class="min-w-0 flex-1 font-mono text-[11px] sm:text-xs text-orange-800 dark:text-orange-200 break-all">curl -o fly.toml https://raw.githubusercontent.com/moltis-org/moltis/main/fly.toml && flyctl launch</code>
                 </div>
                 <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">Need setup details? See <a href="https://docs.moltis.org/cloud-deploy.html" class="text-orange-500 dark:text-orange-400 hover:text-orange-600 dark:hover:text-orange-300 underline">Cloud Deploy docs</a>.</p>
             </div>
@@ -578,6 +582,21 @@
             localStorage.setItem('theme', mode);
             applyTheme(mode);
             updateButtons(mode);
+        });
+
+        // Fly.io command copy
+        const flyCmd = document.getElementById('fly-command');
+        const toast = document.getElementById('toast');
+        const flyText = 'curl -o fly.toml https://raw.githubusercontent.com/moltis-org/moltis/main/fly.toml && flyctl launch';
+        flyCmd.addEventListener('click', () => {
+            navigator.clipboard.writeText(flyText).then(() => {
+                toast.classList.remove('opacity-0', 'pointer-events-none');
+                toast.classList.add('opacity-100');
+                setTimeout(() => {
+                    toast.classList.remove('opacity-100');
+                    toast.classList.add('opacity-0', 'pointer-events-none');
+                }, 2000);
+            });
         });
     </script>
 </body>
