@@ -277,8 +277,9 @@
                 </div>
                 <div id="fly-command" class="mb-1 flex w-full items-center gap-3 px-3 py-2 rounded-md bg-orange-50 dark:bg-orange-950/40 border border-orange-200 dark:border-orange-800 cursor-pointer hover:bg-orange-100 dark:hover:bg-orange-950/60 transition-colors" title="Click to copy">
                     <span class="shrink-0 text-[10px] font-semibold uppercase tracking-wide text-orange-700 dark:text-orange-300">Fly.io</span>
-                    <code class="min-w-0 flex-1 font-mono text-[11px] sm:text-xs text-orange-800 dark:text-orange-200 break-all">curl -o fly.toml https://raw.githubusercontent.com/moltis-org/moltis/main/fly.toml && flyctl launch</code>
+                    <code id="fly-code" class="min-w-0 flex-1 font-mono text-[11px] sm:text-xs text-orange-800 dark:text-orange-200 break-all"></code>
                 </div>
+                <p id="fly-logs-hint" class="mt-1 text-[11px] text-gray-500 dark:text-gray-400 font-mono"></p>
                 <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">Need setup details? See <a href="https://docs.moltis.org/cloud-deploy.html" class="text-orange-500 dark:text-orange-400 hover:text-orange-600 dark:hover:text-orange-300 underline">Cloud Deploy docs</a>.</p>
             </div>
         </div>
@@ -584,10 +585,13 @@
             updateButtons(mode);
         });
 
-        // Fly.io command copy
+        // Fly.io command with random app name
         const flyCmd = document.getElementById('fly-command');
         const toast = document.getElementById('toast');
-        const flyText = 'curl -o fly.toml https://raw.githubusercontent.com/moltis-org/moltis/main/fly.toml && flyctl launch';
+        const flyName = 'moltis-' + Math.random().toString(36).slice(2, 8);
+        const flyText = `curl -o fly.toml https://raw.githubusercontent.com/moltis-org/moltis/main/fly.toml && flyctl launch --name ${flyName}`;
+        document.getElementById('fly-code').textContent = flyText;
+        document.getElementById('fly-logs-hint').textContent = `To get your setup code: flyctl logs -a ${flyName} | grep "setup code"`;
         flyCmd.addEventListener('click', () => {
             navigator.clipboard.writeText(flyText).then(() => {
                 toast.classList.remove('opacity-0', 'pointer-events-none');
