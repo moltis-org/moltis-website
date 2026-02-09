@@ -201,7 +201,7 @@
                 View on GitHub
             </a>
         </div>
-        <!-- Simulated chat input with typewriter -->
+        <!-- Simulated CLI chat input with typewriter — uncomment when moltis CLI/TUI is available
         <div class="max-w-lg mx-auto mb-6">
             <div class="bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden shadow-lg">
                 <div class="flex items-center gap-2 px-3 py-2 bg-gray-200 dark:bg-gray-800 border-b border-gray-300 dark:border-gray-700">
@@ -217,6 +217,7 @@
                 </div>
             </div>
         </div>
+        -->
 
         <!-- Installation tabs -->
         <div class="max-w-3xl mx-auto text-left my-8">
@@ -431,18 +432,6 @@
             </div>
         </div>
 
-        <!-- What can Moltis do for you? -->
-        <div class="max-w-3xl mx-auto mb-8">
-            <h2 class="text-lg sm:text-xl font-semibold text-gray-700 dark:text-gray-200 mb-1 text-center">What can Moltis do for you?</h2>
-            <p class="text-sm text-gray-400 dark:text-gray-500 mb-5 text-center">One assistant, thousands of use cases</p>
-            <div class="relative overflow-hidden rounded-xl">
-                <div class="absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-white dark:from-gray-950 to-transparent z-10 pointer-events-none"></div>
-                <div class="absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-l from-white dark:from-gray-950 to-transparent z-10 pointer-events-none"></div>
-                <div id="use-cases-marquee" class="flex flex-col gap-2 py-2"></div>
-            </div>
-            <p class="mt-4 text-xs text-gray-400 dark:text-gray-500 italic text-center">Add your own use cases via skills and MCP tools</p>
-        </div>
-
         <!-- Extended features checklist -->
         <div class="max-w-3xl mx-auto mb-8 text-left">
             <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4 text-center">And much more...</h2>
@@ -522,6 +511,18 @@
             </div>
         </div>
 
+        <!-- What can Moltis do for you? -->
+        <div class="max-w-3xl mx-auto mb-8">
+            <h2 class="text-lg sm:text-xl font-semibold text-gray-700 dark:text-gray-200 mb-1 text-center">What can Moltis do for you?</h2>
+            <p class="text-sm text-gray-400 dark:text-gray-500 mb-5 text-center">One assistant, thousands of use cases</p>
+            <div class="relative overflow-hidden rounded-xl">
+                <div class="absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-white dark:from-gray-950 to-transparent z-10 pointer-events-none"></div>
+                <div class="absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-l from-white dark:from-gray-950 to-transparent z-10 pointer-events-none"></div>
+                <div id="use-cases-marquee" class="flex flex-col gap-2 py-2"></div>
+            </div>
+            <p class="mt-4 text-xs text-gray-400 dark:text-gray-500 italic text-center">Add your own use cases via skills and MCP tools</p>
+        </div>
+
         <p class="font-mono text-[11px] text-gray-400 dark:text-gray-500 mb-8 leading-relaxed max-w-md mx-auto">
             Ferris molted. The shell cracked open.<br>
             Now the claw speaks on every channel,<br>
@@ -552,7 +553,7 @@
     </div>
 
     <script>
-        // Typewriter chat prompts — edit this array to customise
+        /* Typewriter CLI chat — uncomment when moltis CLI/TUI is available
         const typedPrompts = [
             'What are today\'s events around me?',
             'What is happening on Twitter?',
@@ -599,6 +600,7 @@
             }
             setTimeout(tick, 800);
         })();
+        END typewriter CLI chat */
 
         // "What can Moltis do for you?" marquee — edit these arrays to customise
         const useCaseRows = [
