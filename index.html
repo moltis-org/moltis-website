@@ -70,6 +70,14 @@
         .font-outfit { font-family: 'Outfit', sans-serif; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(-100% - 0.5rem)); }
+        }
+        .animate-marquee { animation: marquee var(--duration, 40s) linear infinite; }
+        .animate-marquee-reverse { animation: marquee var(--duration, 40s) linear infinite reverse; }
+        #use-cases-marquee:hover .animate-marquee,
+        #use-cases-marquee:hover .animate-marquee-reverse { animation-play-state: paused; }
     </style>
 </head>
 <body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-white min-h-screen flex items-center justify-center relative transition-colors duration-300 pt-2 pb-8 overflow-x-hidden w-full">
@@ -400,6 +408,18 @@
             </div>
         </div>
 
+        <!-- What can Moltis do for you? -->
+        <div class="max-w-3xl mx-auto mb-8">
+            <h2 class="text-lg sm:text-xl font-semibold text-gray-700 dark:text-gray-200 mb-1 text-center">What can Moltis do for you?</h2>
+            <p class="text-sm text-gray-400 dark:text-gray-500 mb-5 text-center">One assistant, thousands of use cases</p>
+            <div class="relative overflow-hidden rounded-xl">
+                <div class="absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-white dark:from-gray-950 to-transparent z-10 pointer-events-none"></div>
+                <div class="absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-l from-white dark:from-gray-950 to-transparent z-10 pointer-events-none"></div>
+                <div id="use-cases-marquee" class="flex flex-col gap-2 py-2"></div>
+            </div>
+            <p class="mt-4 text-xs text-gray-400 dark:text-gray-500 italic text-center">Add your own use cases via skills and MCP tools</p>
+        </div>
+
         <!-- Extended features checklist -->
         <div class="max-w-3xl mx-auto mb-8 text-left">
             <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4 text-center">And much more...</h2>
@@ -509,6 +529,39 @@
     </div>
 
     <script>
+        // "What can Moltis do for you?" marquee — edit these arrays to customise
+        const useCaseRows = [
+            ['Read & summarize email', 'Draft replies and follow-ups', 'Translate messages in real time', 'Organize your inbox', 'Answer support tickets', 'Summarize long documents', 'Notify before meetings', 'Schedule meetings from chat'],
+            ['Remind you of deadlines', 'Plan your week', 'Take meeting notes', 'Track expenses and receipts', 'Manage subscriptions', 'Compare insurance quotes', 'Sync across time zones', 'Do your taxes'],
+            ['Find coupons and deals', 'Find best prices online', 'Find discount codes', 'Price-drop alerts', 'Compare product specs', 'Negotiate deals', 'Track packages', 'Run calculations'],
+            ['Write contracts and NDAs', 'Research competitors', 'Generate invoices', 'Create presentations', 'Book travel and hotels', 'Find recipes from ingredients', 'Draft social posts', 'Screen and prioritize leads'],
+            ['Monitor news and alerts', 'Set and track goals', 'Screen cold outreach', 'Draft job descriptions', 'Run standup summaries', 'Track OKRs and KPIs'],
+        ];
+        (function() {
+            const el = document.getElementById('use-cases-marquee');
+            if (!el) return;
+            const speeds = [45, 38, 42, 50, 35];
+            useCaseRows.forEach((items, i) => {
+                const row = document.createElement('div');
+                row.className = 'flex gap-2 overflow-hidden';
+                row.style.setProperty('--duration', speeds[i % speeds.length] + 's');
+                for (let c = 0; c < 2; c++) {
+                    const track = document.createElement('div');
+                    track.className = 'flex shrink-0 items-center gap-2 ' + (i % 2 === 0 ? 'animate-marquee' : 'animate-marquee-reverse');
+                    items.forEach(t => {
+                        const s = document.createElement('span');
+                        s.className = 'inline-flex items-center gap-2 rounded-lg px-3 py-2 border text-[11px] sm:text-xs font-medium shrink-0 whitespace-nowrap bg-gray-50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-300';
+                        const dot = document.createElement('span');
+                        dot.className = 'w-1.5 h-1.5 rounded-full bg-orange-500 dark:bg-orange-400 shrink-0';
+                        s.append(dot, t);
+                        track.appendChild(s);
+                    });
+                    row.appendChild(track);
+                }
+                el.appendChild(row);
+            });
+        })();
+
         // Installation tabs
         const tabsEl = document.getElementById('install-tabs');
         const tabs = ['curl', 'brew', 'binstall', 'docker', 'source', 'others'];
