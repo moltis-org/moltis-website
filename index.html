@@ -592,7 +592,7 @@
         // Fly.io command with random app name
         const flyCmd = document.getElementById('fly-command');
         const toast = document.getElementById('toast');
-        const flyName = 'moltis-' + Math.random().toString(36).slice(2, 8);
+        const flyName = 'moltis-' + Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 8);
         const flyText = `curl -o fly.toml https://raw.githubusercontent.com/moltis-org/moltis/main/fly.toml && flyctl launch --name ${flyName}`;
         document.getElementById('fly-code').textContent = flyText;
         document.getElementById('fly-logs-hint').textContent = `# To get your setup code: flyctl logs -a ${flyName} | grep "setup code"`;
