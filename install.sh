@@ -247,7 +247,7 @@ install_homebrew() {
         error "Homebrew not found. Install it from https://brew.sh/"
     fi
     brew tap "$HOMEBREW_TAP" 2>/dev/null || true
-    brew install moltis
+    brew install "${HOMEBREW_TAP}/moltis"
     success "Moltis installed via Homebrew"
 }
 
