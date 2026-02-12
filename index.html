@@ -250,7 +250,7 @@
                 </div>
                 <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-4">Cloud is a great way to try Moltis. For the full experience, run it on your Mac, a VM, or any dedicated host.</p>
                 <div class="flex flex-wrap items-center gap-2 mb-4">
-                    <a id="do-deploy" href="https://cloud.digitalocean.com/apps/new?repo=https://github.com/moltis-org/moltis/tree/v0.8.17" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-md border border-sky-200 dark:border-sky-900/70 bg-sky-50 dark:bg-sky-950/30 text-sky-700 dark:text-sky-300 hover:border-sky-400 dark:hover:border-sky-600 transition-colors text-[11px] sm:text-xs font-medium" aria-label="Deploy Moltis to DigitalOcean">
+                    <a href="https://cloud.digitalocean.com/apps/new?repo=https://github.com/moltis-org/moltis/tree/main" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-md border border-sky-200 dark:border-sky-900/70 bg-sky-50 dark:bg-sky-950/30 text-sky-700 dark:text-sky-300 hover:border-sky-400 dark:hover:border-sky-600 transition-colors text-[11px] sm:text-xs font-medium" aria-label="Deploy Moltis to DigitalOcean">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                             <circle cx="12" cy="12" r="10" fill="#0080FF"/>
                             <rect x="10" y="5" width="4" height="14" fill="white"/>
@@ -714,16 +714,6 @@
             else if (e.key === 'ArrowLeft') prevImage();
             else if (e.key === 'ArrowRight') nextImage();
         });
-
-        // Fetch latest release tag and update deploy links
-        fetch('https://api.github.com/repos/moltis-org/moltis/releases/latest')
-            .then(r => r.json())
-            .then(d => {
-                if (!d.tag_name) return;
-                const el = document.getElementById('do-deploy');
-                if (el) el.href = el.href.replace(/\/tree\/[^"]+/, '/tree/' + d.tag_name);
-            })
-            .catch(() => {});
 
         // Fly.io command with random app name
         const flyCmd = document.getElementById('fly-command');
