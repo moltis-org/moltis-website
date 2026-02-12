@@ -180,7 +180,13 @@
                     </div>
                     <div id="tab-docker" class="install-content hidden">
                         <p class="text-gray-500 dark:text-gray-500 mb-1"># Multi-arch: amd64/arm64</p>
-                        <p class="text-gray-500 dark:text-gray-500">$ <span class="text-gray-700 dark:text-gray-300">docker pull ghcr.io/moltis-org/moltis:latest</span></p>
+                        <p class="text-gray-500 dark:text-gray-500 mb-1">$ <span class="text-gray-700 dark:text-gray-300">docker run -d \</span></p>
+                        <p class="text-gray-500 dark:text-gray-500 mb-1">    <span class="text-gray-700 dark:text-gray-300">--name moltis -p 13131:13131 \</span></p>
+                        <p class="text-gray-500 dark:text-gray-500 mb-1">    <span class="text-gray-700 dark:text-gray-300">-v moltis-config:/home/moltis/.config/moltis \</span></p>
+                        <p class="text-gray-500 dark:text-gray-500 mb-1">    <span class="text-gray-700 dark:text-gray-300">-v moltis-data:/home/moltis/.moltis \</span></p>
+                        <p class="text-gray-500 dark:text-gray-500 mb-1">    <span class="text-gray-700 dark:text-gray-300">-v /var/run/docker.sock:/var/run/docker.sock \</span></p>
+                        <p class="text-gray-500 dark:text-gray-500 mb-3">    <span class="text-gray-700 dark:text-gray-300">ghcr.io/moltis-org/moltis:latest</span></p>
+                        <p class="text-gray-500 dark:text-gray-500"># Open <span class="text-gray-700 dark:text-gray-300">http://localhost:13131</span> and complete the setup</p>
                     </div>
                     <div id="tab-source" class="install-content hidden">
                         <p class="text-gray-500 dark:text-gray-500 mb-1"># Build from source</p>
@@ -215,7 +221,7 @@
                 </div>
                 <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-4">Cloud is a great way to try Moltis. For the full experience, run it on your Mac, a VM, or any dedicated host.</p>
                 <div class="flex flex-wrap items-center gap-2 mb-4">
-                    <a href="https://cloud.digitalocean.com/apps/new?repo=https://github.com/moltis-org/moltis/tree/main" class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-md border border-sky-200 dark:border-sky-900/70 bg-sky-50 dark:bg-sky-950/30 text-sky-700 dark:text-sky-300 hover:border-sky-400 dark:hover:border-sky-600 transition-colors text-[11px] sm:text-xs font-medium" aria-label="Deploy Moltis to DigitalOcean">
+                    <a href="https://cloud.digitalocean.com/apps/new?repo=https://github.com/moltis-org/moltis/tree/main" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-md border border-sky-200 dark:border-sky-900/70 bg-sky-50 dark:bg-sky-950/30 text-sky-700 dark:text-sky-300 hover:border-sky-400 dark:hover:border-sky-600 transition-colors text-[11px] sm:text-xs font-medium" aria-label="Deploy Moltis to DigitalOcean">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                             <circle cx="12" cy="12" r="10" fill="#0080FF"/>
                             <rect x="10" y="5" width="4" height="14" fill="white"/>
@@ -223,7 +229,7 @@
                         </svg>
                         Deploy on DigitalOcean
                     </a>
-                    <a href="https://render.com/deploy?repo=https://github.com/moltis-org/moltis" class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-md border border-emerald-200 dark:border-emerald-900/70 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 hover:border-emerald-400 dark:hover:border-emerald-600 transition-colors text-[11px] sm:text-xs font-medium" aria-label="Deploy Moltis to Render">
+                    <a href="https://render.com/deploy?repo=https://github.com/moltis-org/moltis" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-md border border-emerald-200 dark:border-emerald-900/70 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 hover:border-emerald-400 dark:hover:border-emerald-600 transition-colors text-[11px] sm:text-xs font-medium" aria-label="Deploy Moltis to Render">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                             <path d="M4 18V6h8a6 6 0 1 1 0 12H4z" fill="#46E3B7"/>
                             <path d="M12 10a2 2 0 1 1 0 4H8v-4h4z" fill="#0B1F1A"/>
