@@ -91,7 +91,7 @@
     <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 px-4 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-sm font-medium rounded-lg shadow-lg opacity-0 pointer-events-none transition-opacity duration-300 z-50">
         Fly command copied
     </div>
-    <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
         <div class="absolute top-1/4 left-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-orange-300/20 dark:bg-orange-600/15 rounded-full blur-3xl animate-pulse-slow"></div>
         <div class="absolute bottom-1/4 right-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-red-300/20 dark:bg-red-600/15 rounded-full blur-3xl animate-pulse-slow animation-delay-2s"></div>
     </div>
@@ -132,6 +132,35 @@
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
             </a>
         </div>
+        <!-- Screenshot gallery -->
+        <div class="max-w-3xl mx-auto mb-8 relative">
+            <div class="absolute left-0 top-0 bottom-0 w-6 sm:w-10 bg-gradient-to-r from-white dark:from-gray-950 to-transparent z-10 pointer-events-none"></div>
+            <div class="absolute right-0 top-0 bottom-0 w-6 sm:w-10 bg-gradient-to-l from-white dark:from-gray-950 to-transparent z-10 pointer-events-none"></div>
+            <div class="flex overflow-x-auto gap-3 hide-scrollbar px-6 sm:px-10">
+                <img src="screenshots/thumbs/1.png" alt="Onboarding — secure your instance with passkey or password" class="h-24 sm:h-32 rounded-lg border border-gray-200 dark:border-gray-700 cursor-pointer hover:border-orange-400 dark:hover:border-orange-500 hover:shadow-md transition-all shrink-0" onclick="openLightbox(0)">
+                <img src="screenshots/thumbs/2.png" alt="Onboarding — setup summary with identity, LLM and channel config" class="h-24 sm:h-32 rounded-lg border border-gray-200 dark:border-gray-700 cursor-pointer hover:border-orange-400 dark:hover:border-orange-500 hover:shadow-md transition-all shrink-0" onclick="openLightbox(1)">
+                <img src="screenshots/thumbs/3.png" alt="Voice settings — speech-to-text and text-to-speech providers" class="h-24 sm:h-32 rounded-lg border border-gray-200 dark:border-gray-700 cursor-pointer hover:border-orange-400 dark:hover:border-orange-500 hover:shadow-md transition-all shrink-0" onclick="openLightbox(2)">
+                <img src="screenshots/thumbs/4.png" alt="Chat with voice, map and tool use" class="h-24 sm:h-32 rounded-lg border border-gray-200 dark:border-gray-700 cursor-pointer hover:border-orange-400 dark:hover:border-orange-500 hover:shadow-md transition-all shrink-0" onclick="openLightbox(3)">
+                <img src="screenshots/thumbs/5.png" alt="Sandboxed shell execution in Docker container" class="h-24 sm:h-32 rounded-lg border border-gray-200 dark:border-gray-700 cursor-pointer hover:border-orange-400 dark:hover:border-orange-500 hover:shadow-md transition-all shrink-0" onclick="openLightbox(4)">
+                <img src="screenshots/thumbs/6.png" alt="Telegram bot channel with voice and events" class="h-24 sm:h-32 rounded-lg border border-gray-200 dark:border-gray-700 cursor-pointer hover:border-orange-400 dark:hover:border-orange-500 hover:shadow-md transition-all shrink-0" onclick="openLightbox(5)">
+                <img src="screenshots/thumbs/7.png" alt="Web UI showing Telegram channel messages" class="h-24 sm:h-32 rounded-lg border border-gray-200 dark:border-gray-700 cursor-pointer hover:border-orange-400 dark:hover:border-orange-500 hover:shadow-md transition-all shrink-0" onclick="openLightbox(6)">
+            </div>
+        </div>
+
+        <!-- Lightbox overlay -->
+        <div id="lightbox" class="hidden fixed inset-0 z-50 bg-black/90 flex items-center justify-center" onclick="if(event.target===this)closeLightbox()">
+            <button onclick="closeLightbox()" class="absolute top-4 right-4 text-white/70 hover:text-white transition-colors" aria-label="Close">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <button id="lb-prev" onclick="prevImage()" class="absolute left-4 text-white/70 hover:text-white transition-colors" aria-label="Previous">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <img id="lb-img" src="" alt="Screenshot" class="max-w-[90vw] max-h-[85vh] object-contain rounded-lg">
+            <button id="lb-next" onclick="nextImage()" class="absolute right-4 text-white/70 hover:text-white transition-colors" aria-label="Next">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+        </div>
+
         <!-- Simulated CLI chat input with typewriter — uncomment when moltis CLI/TUI is available
         <div class="max-w-lg mx-auto mb-6">
             <div class="bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden shadow-lg">
@@ -656,6 +685,34 @@
             localStorage.setItem('theme', mode);
             applyTheme(mode);
             updateButtons(mode);
+        });
+
+        // Lightbox
+        const lbTotal = 7;
+        let lbIndex = 0;
+        const lbEl = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lb-img');
+        const lbPrev = document.getElementById('lb-prev');
+        const lbNext = document.getElementById('lb-next');
+        function openLightbox(i) {
+            lbIndex = i;
+            lbImg.src = 'screenshots/' + (i + 1) + '.png';
+            lbPrev.classList.toggle('invisible', i === 0);
+            lbNext.classList.toggle('invisible', i === lbTotal - 1);
+            lbEl.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeLightbox() {
+            lbEl.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+        function prevImage() { if (lbIndex > 0) openLightbox(lbIndex - 1); }
+        function nextImage() { if (lbIndex < lbTotal - 1) openLightbox(lbIndex + 1); }
+        document.addEventListener('keydown', e => {
+            if (lbEl.classList.contains('hidden')) return;
+            if (e.key === 'Escape') closeLightbox();
+            else if (e.key === 'ArrowLeft') prevImage();
+            else if (e.key === 'ArrowRight') nextImage();
         });
 
         // Fly.io command with random app name
