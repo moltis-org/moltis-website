@@ -310,16 +310,28 @@ install_deb() {
         *) error "Unsupported architecture for .deb: $arch" ;;
     esac
 
-    # Package naming: moltis_VERSION_ARCH.deb
-    deb_file="moltis_${version}_${deb_arch}.deb"
-    url="https://github.com/${GITHUB_REPO}/releases/download/v${version}/${deb_file}"
-
-    info "Downloading ${deb_file}..."
-
     tmpdir=$(mktemp -d)
     trap 'rm -rf "$tmpdir"' EXIT
 
-    download "$url" "$tmpdir/$deb_file" || error "Failed to download $deb_file"
+    # Current naming is moltis_VERSION-1_ARCH.deb, keep a legacy fallback.
+    deb_file=""
+    for candidate in "moltis_${version}-1_${deb_arch}.deb" "moltis_${version}_${deb_arch}.deb"; do
+        url="https://github.com/${GITHUB_REPO}/releases/download/v${version}/${candidate}"
+        if download "$url" "$tmpdir/$candidate" 2>/dev/null; then
+            deb_file="$candidate"
+            break
+        fi
+    done
+
+    if [ -z "$deb_file" ]; then
+        rm -rf "$tmpdir"
+        trap - EXIT
+        warn "No .deb package found for v${version} (${deb_arch}), falling back to standalone binary."
+        install_binary "linux" "$arch" "$version"
+        return
+    fi
+
+    info "Downloading ${deb_file}..."
 
     info "Installing .deb package (requires sudo)..."
     sudo dpkg -i "$tmpdir/$deb_file" || sudo apt-get install -f -y
@@ -337,16 +349,28 @@ install_rpm() {
         *) error "Unsupported architecture for .rpm: $arch" ;;
     esac
 
-    # Package naming: moltis-VERSION-1.ARCH.rpm
-    rpm_file="moltis-${version}-1.${rpm_arch}.rpm"
-    url="https://github.com/${GITHUB_REPO}/releases/download/v${version}/${rpm_file}"
-
-    info "Downloading ${rpm_file}..."
-
     tmpdir=$(mktemp -d)
     trap 'rm -rf "$tmpdir"' EXIT
 
-    download "$url" "$tmpdir/$rpm_file" || error "Failed to download $rpm_file"
+    # Current naming is moltis-VERSION-1.ARCH.rpm, keep legacy fallbacks.
+    rpm_file=""
+    for candidate in "moltis-${version}-1.${rpm_arch}.rpm" "moltis-${version}.${rpm_arch}.rpm" "moltis-${version}-${rpm_arch}.rpm"; do
+        url="https://github.com/${GITHUB_REPO}/releases/download/v${version}/${candidate}"
+        if download "$url" "$tmpdir/$candidate" 2>/dev/null; then
+            rpm_file="$candidate"
+            break
+        fi
+    done
+
+    if [ -z "$rpm_file" ]; then
+        rm -rf "$tmpdir"
+        trap - EXIT
+        warn "No .rpm package found for v${version} (${rpm_arch}), falling back to standalone binary."
+        install_binary "linux" "$arch" "$version"
+        return
+    fi
+
+    info "Downloading ${rpm_file}..."
 
     info "Installing .rpm package (requires sudo)..."
     if command_exists dnf; then
@@ -364,15 +388,28 @@ install_arch() {
     arch="$1"
     version="$2"
 
-    pkg_file="moltis-${version}-1-${arch}.pkg.tar.zst"
-    url="https://github.com/${GITHUB_REPO}/releases/download/v${version}/${pkg_file}"
-
-    info "Downloading ${pkg_file}..."
-
     tmpdir=$(mktemp -d)
     trap 'rm -rf "$tmpdir"' EXIT
 
-    download "$url" "$tmpdir/$pkg_file" || error "Failed to download $pkg_file"
+    # Current naming is moltis-VERSION-1-ARCH.pkg.tar.zst, keep legacy fallback.
+    pkg_file=""
+    for candidate in "moltis-${version}-1-${arch}.pkg.tar.zst" "moltis-${version}-${arch}.pkg.tar.zst"; do
+        url="https://github.com/${GITHUB_REPO}/releases/download/v${version}/${candidate}"
+        if download "$url" "$tmpdir/$candidate" 2>/dev/null; then
+            pkg_file="$candidate"
+            break
+        fi
+    done
+
+    if [ -z "$pkg_file" ]; then
+        rm -rf "$tmpdir"
+        trap - EXIT
+        warn "No Arch package found for v${version} (${arch}), falling back to standalone binary."
+        install_binary "linux" "$arch" "$version"
+        return
+    fi
+
+    info "Downloading ${pkg_file}..."
 
     info "Installing Arch package (requires sudo)..."
     sudo pacman -U --noconfirm "$tmpdir/$pkg_file"
