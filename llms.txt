@@ -14,10 +14,41 @@
 
 ## OpenClaw Import
 
+Moltis can automatically detect and import data from an existing OpenClaw installation.
+The import is strictly read-only — OpenClaw files are never modified, moved, or deleted.
+Users can keep using OpenClaw alongside Moltis and re-import at any time.
+
 After install, if OpenClaw data is present:
 
 - Detect: `moltis import detect --json`
 - Import all: `moltis import all --json`
+- Import selected: `moltis import select -c providers,skills,memory --json`
+- Dry run: `moltis import all --dry-run --json`
+
+### What gets imported
+
+- **Identity**: agent name, theme, timezone → `moltis.toml`
+- **Providers**: API keys from auth-profiles → `provider_keys.json` (maps `google` → `gemini`)
+- **Skills**: `skills/` directories with `SKILL.md` (skips duplicates)
+- **Memory**: `MEMORY.md` + all `memory/*.md` files (daily logs, project notes)
+- **Channels**: Telegram and Discord bot configuration
+- **Sessions**: JSONL conversations → SQLite + markdown transcripts (prefixed `oc:`)
+- **MCP Servers**: `mcp-servers.json` (merged, skips duplicates)
+- **Workspace Files**: `SOUL.md`, `IDENTITY.md`, `USER.md`, `TOOLS.md`, `AGENTS.md`, `HEARTBEAT.md`, `BOOT.md`
+
+### Multi-agent
+
+All OpenClaw agents are imported. Default agent maps to `main`; non-default agents get
+their own persona and per-agent workspace files under `~/.moltis/agents/<id>/`.
+
+### Idempotency
+
+Safe to run multiple times. Memory uses markers, sessions use `oc:` prefixes,
+skills/MCP skip duplicates, workspace files skip user-customized content.
+
+### Documentation
+
+Full details: <https://docs.moltis.org/openclaw-import.html>
 
 ## Start and Handoff
 
