@@ -1,5 +1,0 @@
-{
-  "version": 1,
-  "include": ["/*"],
-  "exclude": ["/index.en.html", "/index.fr.html", "/favicon.svg", "/images/*", "/screenshots/*", "/og-social.png*", "/install.sh", "/*.js", "/*.css", "/*.svg", "/*.png", "/*.jpg", "/*.webp", "/*.woff2"]
-}
