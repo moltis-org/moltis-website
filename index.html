@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moltis</title>
+    <script>
+        (function () {
+            var lang = "en";
+            var m = document.cookie.match(/(?:^|;\s*)lang=(en|fr)(?:;|$)/);
+            if (m) {
+                lang = m[1];
+            } else if ((navigator.language || "").toLowerCase().startsWith("fr")) {
+                lang = "fr";
+            }
+            location.replace("/index." + lang + ".html");
+        })();
+    </script>
+</head>
+<body></body>
+</html>
