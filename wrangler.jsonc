@@ -1,6 +1,7 @@
 {
   "name": "withered-breeze-e956",
   "compatibility_date": "2026-02-02",
+  "main": "_worker.js",
   "assets": {
     "directory": "./"
   },
