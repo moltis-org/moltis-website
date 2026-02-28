@@ -14,9 +14,9 @@
     <meta name="color-scheme" content="light dark">
     <title>Moltis — A Rust-native claw you can trust</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <meta name="description" content="A Rust-native claw you can trust. One binary, sandboxed execution, multi-provider LLMs, voice, memory, Telegram, and MCP tools. Secure by design, runs on your hardware.">
+    <meta name="description" content="A Rust-native claw you can trust. One binary, sandboxed execution, multi-provider LLMs, voice, memory, Telegram, WhatsApp, Discord, Teams, and MCP tools. Secure by design, runs on your hardware.">
     <meta property="og:title" content="Moltis — A Rust-native claw you can trust">
-    <meta property="og:description" content="A Rust-native claw you can trust. One binary, sandboxed execution, multi-provider LLMs, voice, memory, Telegram, and MCP tools. Secure by design, runs on your hardware.">
+    <meta property="og:description" content="A Rust-native claw you can trust. One binary, sandboxed execution, multi-provider LLMs, voice, memory, Telegram, WhatsApp, Discord, Teams, and MCP tools. Secure by design, runs on your hardware.">
     <meta property="og:site_name" content="Moltis">
     <meta property="og:locale" content="en_US">
     <meta property="og:image" content="https://moltis.org/og-social.png?v=8">
@@ -30,7 +30,7 @@
     <meta name="twitter:image" content="https://moltis.org/og-social.png?v=8">
     <meta name="twitter:image:alt" content="Moltis — A Rust-native claw you can trust">
     <meta name="twitter:title" content="Moltis — A Rust-native claw you can trust">
-    <meta name="twitter:description" content="A Rust-native claw you can trust. One binary, sandboxed execution, multi-provider LLMs, voice, memory, Telegram, and MCP tools. Secure by design, runs on your hardware.">
+    <meta name="twitter:description" content="A Rust-native claw you can trust. One binary, sandboxed execution, multi-provider LLMs, voice, memory, Telegram, WhatsApp, Discord, Teams, and MCP tools. Secure by design, runs on your hardware.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400&family=Outfit:wght@700&display=swap" rel="stylesheet">
@@ -442,7 +442,7 @@
                         </span>
                         <p class="text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-200">Skills, Hooks & MCP</p>
                     </div>
-                    <p class="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 leading-relaxed">Plugins, hooks, MCP tool servers. Stdio or HTTP/SSE, auto-restart.</p>
+                    <p class="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 leading-relaxed">Plugins, hooks, MCP tool servers with OAuth 2.1. Stdio or HTTP/SSE, auto-restart.</p>
                 </div>
                 <div class="p-3 sm:p-4 rounded-lg bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800">
                     <div class="flex items-center gap-2 mb-1.5 sm:mb-2">
@@ -527,8 +527,9 @@
                             <svg width="16" height="16" class="sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
                         </span>
                         <p class="text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-200">iOS Companion</p>
+                        <span class="px-1.5 py-0.5 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-[9px] font-bold uppercase">Soon</span>
                     </div>
-                    <p class="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 leading-relaxed">Native iOS app with push notifications via APNS relay. Your assistant in your pocket.</p>
+                    <p class="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 leading-relaxed">Native iOS app with push notifications via APNS relay. Coming soon to the App Store.</p>
                 </div>
                 <div class="p-3 sm:p-4 rounded-lg bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800">
                     <div class="flex items-center gap-2 mb-1.5 sm:mb-2">
@@ -571,14 +572,13 @@
                     <div>
                         <h3 class="text-sm font-semibold text-orange-500 dark:text-orange-400 mb-2 uppercase tracking-wide">LLM Providers</h3>
                         <ul class="space-y-1 text-xs text-gray-600 dark:text-gray-400">
-                            <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> Multiple cloud providers</li>
-                            <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> OpenAI Codex</li>
-                            <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> GitHub Copilot</li>
-                            <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> Local LLM (offline)</li>
+                            <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> Anthropic, OpenAI, Gemini</li>
+                            <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> DeepSeek, Mistral, Groq, xAI</li>
+                            <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> OpenRouter, Ollama, Local LLM</li>
+                            <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> Custom OpenAI-compatible endpoints</li>
                             <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> Provider fallback chains</li>
                             <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> Per-provider metrics</li>
                         </ul>
-                        <p class="mt-2 text-[11px] text-gray-500 dark:text-gray-400">More providers coming soon.</p>
                     </div>
                     <!-- Memory -->
                     <div>
@@ -615,7 +615,7 @@
                             <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> WhatsApp</li>
                             <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> Discord</li>
                             <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> Microsoft Teams</li>
-                            <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> iOS companion app</li>
+                            <li class="flex items-center gap-2"><span class="text-gray-400 dark:text-gray-500">&#9675;</span> <span class="text-gray-400 dark:text-gray-500">iOS companion app (coming soon)</span></li>
                             <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> JSON-RPC + GraphQL API</li>
                             <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> Push notifications</li>
                             <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> Multi-device sync</li>
@@ -880,6 +880,20 @@
                                 <td class="px-3 py-2 text-gray-400 dark:text-gray-600">&#x2014;</td>
                                 <td class="px-3 py-2 bg-orange-50/30 dark:bg-orange-950/10 font-medium text-gray-700 dark:text-gray-200">15 event types</td>
                             </tr>
+                            <tr class="border-b border-gray-100 dark:border-gray-800/50 bg-gray-50/50 dark:bg-gray-900/20">
+                                <td class="px-3 py-2 font-medium text-gray-700 dark:text-gray-300 sticky left-0 bg-gray-50/50 dark:bg-gray-900/20 z-10">Channels</td>
+                                <td class="px-3 py-2">Web, Telegram</td>
+                                <td class="px-3 py-2">Web, Telegram</td>
+                                <td class="px-3 py-2">Web, Discord</td>
+                                <td class="px-3 py-2 bg-orange-50/30 dark:bg-orange-950/10 font-medium text-gray-700 dark:text-gray-200">Web, Telegram, WhatsApp, Discord, Teams</td>
+                            </tr>
+                            <tr class="border-b border-gray-100 dark:border-gray-800/50">
+                                <td class="px-3 py-2 font-medium text-gray-700 dark:text-gray-300 sticky left-0 bg-white dark:bg-gray-950 z-10">API</td>
+                                <td class="px-3 py-2">REST</td>
+                                <td class="px-3 py-2">REST</td>
+                                <td class="px-3 py-2">REST + gRPC</td>
+                                <td class="px-3 py-2 bg-orange-50/30 dark:bg-orange-950/10 font-medium text-gray-700 dark:text-gray-200">JSON-RPC + GraphQL</td>
+                            </tr>
                             <tr>
                                 <td class="px-3 py-2 font-medium text-gray-700 dark:text-gray-300 sticky left-0 bg-white dark:bg-gray-950 z-10">OpenClaw import</td>
                                 <td class="px-3 py-2 text-gray-400 dark:text-gray-600">&#x2014;</td>
@@ -917,14 +931,14 @@
                                 <td class="px-3 py-2">App-level</td>
                                 <td class="px-3 py-2">Docker</td>
                                 <td class="px-3 py-2">Docker</td>
-                                <td class="px-3 py-2 bg-orange-50/30 dark:bg-orange-950/10 font-medium text-gray-700 dark:text-gray-200">Docker + Apple Container</td>
+                                <td class="px-3 py-2 bg-orange-50/30 dark:bg-orange-950/10 font-medium text-gray-700 dark:text-gray-200">Docker + Apple + WASM</td>
                             </tr>
                             <tr class="border-b border-gray-100 dark:border-gray-800/50 bg-gray-50/50 dark:bg-gray-900/20">
                                 <td class="px-3 py-2 font-medium text-gray-700 dark:text-gray-300 sticky left-0 bg-gray-50/50 dark:bg-gray-900/20 z-10">Secret handling</td>
                                 <td class="px-3 py-2">Env variables</td>
                                 <td class="px-3 py-2">Env variables</td>
                                 <td class="px-3 py-2">Encrypted profiles</td>
-                                <td class="px-3 py-2 bg-orange-50/30 dark:bg-orange-950/10 font-medium text-gray-700 dark:text-gray-200">Redacted from logs, zeroed on drop</td>
+                                <td class="px-3 py-2 bg-orange-50/30 dark:bg-orange-950/10 font-medium text-gray-700 dark:text-gray-200">Encrypted vault, redacted, zeroed</td>
                             </tr>
                             <tr class="border-b border-gray-100 dark:border-gray-800/50">
                                 <td class="px-3 py-2 font-medium text-gray-700 dark:text-gray-300 sticky left-0 bg-white dark:bg-gray-950 z-10">SSRF protection</td>
