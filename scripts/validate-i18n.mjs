@@ -14,6 +14,7 @@ const LANGUAGES = [
   { code: "zh", locale: "zh_CN", file: "index.zh.html" },
   { code: "es", locale: "es_ES", file: "index.es.html" },
   { code: "de", locale: "de_DE", file: "index.de.html" },
+  { code: "it", locale: "it_IT", file: "index.it.html" },
   { code: "pt", locale: "pt_BR", file: "index.pt.html" },
   { code: "ja", locale: "ja_JP", file: "index.ja.html" },
   { code: "ko", locale: "ko_KR", file: "index.ko.html" },

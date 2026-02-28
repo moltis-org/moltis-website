@@ -1,4 +1,4 @@
-const SUPPORTED = ['en', 'fr', 'zh', 'es', 'de', 'pt', 'ja', 'ko', 'ru'];
+const SUPPORTED = ['en', 'fr', 'zh', 'es', 'de', 'it', 'pt', 'ja', 'ko', 'ru'];
 const DEFAULT_LANG = 'en';
 
 function detectLang(acceptLanguage) {
