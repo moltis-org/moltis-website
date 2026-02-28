@@ -1,15 +1,24 @@
 #!/usr/bin/env node
 /**
- * Validates structural parity between index.en.html and index.fr.html.
+ * Validates structural parity across all language versions of the site.
  * Checks: same number of sections, same IDs, same classes on key elements,
  * same interactive elements (buttons, links, inputs).
  */
 
-import { readFileSync } from "fs";
+import { readFileSync, existsSync } from "fs";
 import { JSDOM } from "jsdom";
 
-const EN_FILE = "index.en.html";
-const FR_FILE = "index.fr.html";
+const LANGUAGES = [
+  { code: "en", locale: "en_US", file: "index.en.html" },
+  { code: "fr", locale: "fr_FR", file: "index.fr.html" },
+  { code: "zh", locale: "zh_CN", file: "index.zh.html" },
+  { code: "es", locale: "es_ES", file: "index.es.html" },
+  { code: "de", locale: "de_DE", file: "index.de.html" },
+  { code: "pt", locale: "pt_BR", file: "index.pt.html" },
+  { code: "ja", locale: "ja_JP", file: "index.ja.html" },
+  { code: "ko", locale: "ko_KR", file: "index.ko.html" },
+  { code: "ru", locale: "ru_RU", file: "index.ru.html" },
+];
 
 let exitCode = 0;
 
@@ -27,28 +36,34 @@ function loadDOM(file) {
   return new JSDOM(html).window.document;
 }
 
-const enDoc = loadDOM(EN_FILE);
-const frDoc = loadDOM(FR_FILE);
+// Load reference (English) and all other languages
+const enDoc = loadDOM(LANGUAGES[0].file);
+const docs = new Map();
+for (const lang of LANGUAGES) {
+  if (!existsSync(lang.file)) {
+    fail(`${lang.code.toUpperCase()}: file ${lang.file} does not exist`);
+    continue;
+  }
+  docs.set(lang.code, loadDOM(lang.file));
+}
 
-console.log("Validating i18n structural parity...\n");
+console.log(`Validating i18n structural parity (${docs.size} languages)...\n`);
 
-// 1. Check <html lang>
-const enLang = enDoc.documentElement.getAttribute("lang");
-const frLang = frDoc.documentElement.getAttribute("lang");
-if (enLang === "en") pass(`EN lang="${enLang}"`);
-else fail(`EN lang should be "en", got "${enLang}"`);
-if (frLang === "fr") pass(`FR lang="${frLang}"`);
-else fail(`FR lang should be "fr", got "${frLang}"`);
+// 1. Check <html lang> and og:locale for each language
+for (const lang of LANGUAGES) {
+  const doc = docs.get(lang.code);
+  if (!doc) continue;
 
-// 2. Check og:locale
-const enLocale = enDoc.querySelector('meta[property="og:locale"]')?.getAttribute("content");
-const frLocale = frDoc.querySelector('meta[property="og:locale"]')?.getAttribute("content");
-if (enLocale === "en_US") pass(`EN og:locale="${enLocale}"`);
-else fail(`EN og:locale should be "en_US", got "${enLocale}"`);
-if (frLocale === "fr_FR") pass(`FR og:locale="${frLocale}"`);
-else fail(`FR og:locale should be "fr_FR", got "${frLocale}"`);
+  const htmlLang = doc.documentElement.getAttribute("lang");
+  if (htmlLang === lang.code) pass(`${lang.code.toUpperCase()} lang="${htmlLang}"`);
+  else fail(`${lang.code.toUpperCase()} lang should be "${lang.code}", got "${htmlLang}"`);
 
-// 3. Compare element counts by selector
+  const locale = doc.querySelector('meta[property="og:locale"]')?.getAttribute("content");
+  if (locale === lang.locale) pass(`${lang.code.toUpperCase()} og:locale="${locale}"`);
+  else fail(`${lang.code.toUpperCase()} og:locale should be "${lang.locale}", got "${locale}"`);
+}
+
+// 2. Compare element counts by selector (each language vs English)
 const selectors = [
   ".page-content",
   ".nav-tab",
@@ -64,72 +79,80 @@ const selectors = [
   "section, div.mb-8, div.mb-10",
 ];
 
-for (const sel of selectors) {
-  const enCount = enDoc.querySelectorAll(sel).length;
-  const frCount = frDoc.querySelectorAll(sel).length;
-  if (enCount === frCount) {
-    pass(`${sel}: ${enCount} elements`);
-  } else {
-    fail(`${sel}: EN has ${enCount}, FR has ${frCount}`);
+for (const lang of LANGUAGES) {
+  if (lang.code === "en") continue;
+  const doc = docs.get(lang.code);
+  if (!doc) continue;
+
+  console.log(`\n--- ${lang.code.toUpperCase()} vs EN ---`);
+
+  for (const sel of selectors) {
+    const enCount = enDoc.querySelectorAll(sel).length;
+    const langCount = doc.querySelectorAll(sel).length;
+    if (enCount === langCount) {
+      pass(`${sel}: ${enCount} elements`);
+    } else {
+      fail(`${sel}: EN has ${enCount}, ${lang.code.toUpperCase()} has ${langCount}`);
+    }
   }
-}
 
-// 4. Compare all IDs
-const enIds = [...enDoc.querySelectorAll("[id]")].map((el) => el.id).sort();
-const frIds = [...frDoc.querySelectorAll("[id]")].map((el) => el.id).sort();
+  // 3. Compare all IDs
+  const enIds = [...enDoc.querySelectorAll("[id]")].map((el) => el.id).sort();
+  const langIds = [...doc.querySelectorAll("[id]")].map((el) => el.id).sort();
 
-const missingInFr = enIds.filter((id) => !frIds.includes(id));
-const extraInFr = frIds.filter((id) => !enIds.includes(id));
+  const missingIds = enIds.filter((id) => !langIds.includes(id));
+  const extraIds = langIds.filter((id) => !enIds.includes(id));
 
-if (missingInFr.length === 0) pass("All EN IDs present in FR");
-else fail(`IDs missing in FR: ${missingInFr.join(", ")}`);
+  if (missingIds.length === 0) pass(`All EN IDs present in ${lang.code.toUpperCase()}`);
+  else fail(`IDs missing in ${lang.code.toUpperCase()}: ${missingIds.join(", ")}`);
 
-if (extraInFr.length === 0) pass("No extra IDs in FR");
-else fail(`Extra IDs in FR: ${extraInFr.join(", ")}`);
+  if (extraIds.length === 0) pass(`No extra IDs in ${lang.code.toUpperCase()}`);
+  else fail(`Extra IDs in ${lang.code.toUpperCase()}: ${extraIds.join(", ")}`);
 
-// 5. Check data-page attributes match
-const enPages = [...enDoc.querySelectorAll("[data-page]")]
-  .map((el) => el.dataset.page)
-  .sort();
-const frPages = [...frDoc.querySelectorAll("[data-page]")]
-  .map((el) => el.dataset.page)
-  .sort();
+  // 4. Check data-page attributes match
+  const enPages = [...enDoc.querySelectorAll("[data-page]")]
+    .map((el) => el.dataset.page)
+    .sort();
+  const langPages = [...doc.querySelectorAll("[data-page]")]
+    .map((el) => el.dataset.page)
+    .sort();
 
-if (JSON.stringify(enPages) === JSON.stringify(frPages)) {
-  pass(`data-page attributes match (${enPages.length} elements)`);
-} else {
-  fail(`data-page mismatch: EN=[${enPages}] FR=[${frPages}]`);
-}
+  if (JSON.stringify(enPages) === JSON.stringify(langPages)) {
+    pass(`data-page attributes match (${enPages.length} elements)`);
+  } else {
+    fail(`data-page mismatch: EN=[${enPages}] ${lang.code.toUpperCase()}=[${langPages}]`);
+  }
 
-// 6. Check data-tab attributes match
-const enTabs = [...enDoc.querySelectorAll("[data-tab]")]
-  .map((el) => el.dataset.tab)
-  .sort();
-const frTabs = [...frDoc.querySelectorAll("[data-tab]")]
-  .map((el) => el.dataset.tab)
-  .sort();
+  // 5. Check data-tab attributes match
+  const enTabs = [...enDoc.querySelectorAll("[data-tab]")]
+    .map((el) => el.dataset.tab)
+    .sort();
+  const langTabs = [...doc.querySelectorAll("[data-tab]")]
+    .map((el) => el.dataset.tab)
+    .sort();
 
-if (JSON.stringify(enTabs) === JSON.stringify(frTabs)) {
-  pass(`data-tab attributes match (${enTabs.length} elements)`);
-} else {
-  fail(`data-tab mismatch: EN=[${enTabs}] FR=[${frTabs}]`);
-}
+  if (JSON.stringify(enTabs) === JSON.stringify(langTabs)) {
+    pass(`data-tab attributes match (${enTabs.length} elements)`);
+  } else {
+    fail(`data-tab mismatch: EN=[${enTabs}] ${lang.code.toUpperCase()}=[${langTabs}]`);
+  }
 
-// 7. Check external links match (hrefs)
-const enHrefs = [...enDoc.querySelectorAll('a[href^="http"]')]
-  .map((a) => a.href)
-  .sort();
-const frHrefs = [...frDoc.querySelectorAll('a[href^="http"]')]
-  .map((a) => a.href)
-  .sort();
+  // 6. Check external links match (hrefs)
+  const enHrefs = [...enDoc.querySelectorAll('a[href^="http"]')]
+    .map((a) => a.href)
+    .sort();
+  const langHrefs = [...doc.querySelectorAll('a[href^="http"]')]
+    .map((a) => a.href)
+    .sort();
 
-if (JSON.stringify(enHrefs) === JSON.stringify(frHrefs)) {
-  pass(`External links match (${enHrefs.length} links)`);
-} else {
-  const missingLinks = enHrefs.filter((h) => !frHrefs.includes(h));
-  const extraLinks = frHrefs.filter((h) => !enHrefs.includes(h));
-  if (missingLinks.length) fail(`Links missing in FR: ${missingLinks.join(", ")}`);
-  if (extraLinks.length) fail(`Extra links in FR: ${extraLinks.join(", ")}`);
+  if (JSON.stringify(enHrefs) === JSON.stringify(langHrefs)) {
+    pass(`External links match (${enHrefs.length} links)`);
+  } else {
+    const missingLinks = enHrefs.filter((h) => !langHrefs.includes(h));
+    const extraLinks = langHrefs.filter((h) => !enHrefs.includes(h));
+    if (missingLinks.length) fail(`Links missing in ${lang.code.toUpperCase()}: ${missingLinks.join(", ")}`);
+    if (extraLinks.length) fail(`Extra links in ${lang.code.toUpperCase()}: ${extraLinks.join(", ")}`);
+  }
 }
 
 // Summary

@@ -111,8 +111,24 @@
                         <svg id="theme-icon-system" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                         <svg id="theme-icon-dark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
                     </button>
-                    <!-- Language toggle -->
-                    <button onclick="document.cookie='lang=en;path=/;max-age=31536000;SameSite=Lax';location.reload()" title="Switch to English" class="px-2 py-1 rounded-md text-xs font-semibold text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">FR</button>
+                    <!-- Language selector -->
+                    <div class="relative" id="lang-switcher">
+                        <button onclick="this.nextElementSibling.classList.toggle('hidden')" class="flex items-center gap-0.5 px-2 py-1 rounded-md text-xs font-semibold text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" title="Changer de langue">
+                            FR
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+                        </button>
+                        <div class="hidden absolute right-0 mt-1 min-w-[8rem] bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50">
+                            <button onclick="setLang('en')" class="w-full text-left px-3 py-1.5 text-xs text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">English</button>
+                            <button onclick="setLang('fr')" class="w-full text-left px-3 py-1.5 text-xs font-semibold text-orange-600 dark:text-orange-400 hover:bg-gray-100 dark:hover:bg-gray-700">Fran&#231;ais</button>
+                            <button onclick="setLang('zh')" class="w-full text-left px-3 py-1.5 text-xs text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">&#20013;&#25991;</button>
+                            <button onclick="setLang('es')" class="w-full text-left px-3 py-1.5 text-xs text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Espa&#241;ol</button>
+                            <button onclick="setLang('de')" class="w-full text-left px-3 py-1.5 text-xs text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Deutsch</button>
+                            <button onclick="setLang('pt')" class="w-full text-left px-3 py-1.5 text-xs text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Portugu&#234;s</button>
+                            <button onclick="setLang('ja')" class="w-full text-left px-3 py-1.5 text-xs text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">&#26085;&#26412;&#35486;</button>
+                            <button onclick="setLang('ko')" class="w-full text-left px-3 py-1.5 text-xs text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">&#54620;&#44397;&#50612;</button>
+                            <button onclick="setLang('ru')" class="w-full text-left px-3 py-1.5 text-xs text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;</button>
+                        </div>
+                    </div>
                     <!-- GitHub stars -->
                     <a href="https://github.com/moltis-org/moltis" target="_blank" rel="noopener" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full border border-gray-200 dark:border-gray-700 text-xs font-medium text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-300 transition-colors" id="github-stars-link">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -549,7 +565,7 @@
                         </span>
                         <p class="text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-200">Internationalisation</p>
                     </div>
-                    <p class="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 leading-relaxed">Support i18n complet. Anglais et français intégrés, d'autres langues à venir.</p>
+                    <p class="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 leading-relaxed">Support i18n complet. Neuf langues sont intégrées aujourd'hui.</p>
                 </div>
             </div>
 
@@ -603,7 +619,7 @@
                             <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> Intégration calendrier CalDAV</li>
                             <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> Système de hooks (cycle de vie)</li>
                             <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> Planification cron</li>
-                            <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> i18n (anglais, français)</li>
+                            <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> i18n (9 langues)</li>
                             <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> <a href="https://docs.moltis.org/openclaw-import.html" class="hover:text-orange-500 transition-colors">Import OpenClaw</a></li>
                             <li class="flex items-center gap-2"><span class="text-orange-500">&#10003;</span> Configuration TOML</li>
                         </ul>
@@ -1060,6 +1076,24 @@
     </footer>
 
     <script>
+        // ============================================================
+        // Language switcher
+        // ============================================================
+        function setLang(lang) {
+            document.cookie = 'lang=' + lang + ';path=/;max-age=31536000;SameSite=Lax';
+            if (location.pathname === '/') {
+                location.reload();
+            } else {
+                location.href = '/';
+            }
+        }
+        document.addEventListener('click', function(e) {
+            var sw = document.getElementById('lang-switcher');
+            if (sw && !sw.contains(e.target)) {
+                sw.querySelector('div').classList.add('hidden');
+            }
+        });
+
         // ============================================================
         // Page routing
         // ============================================================
