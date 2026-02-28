@@ -3,7 +3,9 @@
   "compatibility_date": "2026-02-02",
   "main": "_worker.js",
   "assets": {
-    "directory": "./"
+    "directory": "./",
+    "binding": "ASSETS",
+    "run_worker_first": true
   },
   "observability": {
     "enabled": false,
